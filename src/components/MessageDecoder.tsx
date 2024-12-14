@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { AlertCircle, CheckCircle2, KeyRound } from 'lucide-react';
 import { decodeMessage, secretCode } from '../utils/cipher';
 
@@ -11,6 +11,8 @@ export default function MessageDecoder({ onSuccess }: MessageDecoderProps) {
   const [showHint, setShowHint] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [showError, setShowError] = useState(false);
+
+  const [showImage, setShowImage] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -27,6 +29,15 @@ export default function MessageDecoder({ onSuccess }: MessageDecoderProps) {
       setIsCorrect(false);
     }
   };
+
+  useEffect(() => {
+    if (isCorrect) {
+      const timer = setTimeout(() => {
+        setShowImage(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCorrect]);
 
   return (
     <div className="w-full max-w-3xl space-y-6">
@@ -48,27 +59,34 @@ export default function MessageDecoder({ onSuccess }: MessageDecoderProps) {
             <label htmlFor="attempt" className="block text-sm font-medium text-gray-700">
               Sua resposta:
             </label>
-            <input
-              type="text"
-              id="attempt"
-              value={attempt}
-              onChange={(e) => setAttempt(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="Digite sua resposta..."
-            />
+            <div className="relative z-10">
+              <input
+                type="text"
+                id="attempt"
+                value={attempt}
+                onChange={(e) => setAttempt(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm 
+                  focus:border-blue-500 focus:ring-blue-500 
+                  cursor-text relative z-10 
+                  pointer-events-auto select-auto"
+                placeholder="Digite sua resposta..."
+                tabIndex={0}
+                style={{ pointerEvents: 'auto' }}
+              />
+            </div>
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center rekatuve z-10">
             <button
               type="button"
               onClick={() => setShowHint(!showHint)}
-              className="text-sm text-blue-600 hover:text-blue-800"
+              className="relative z-10 text-sm text-blue-600 hover:text-blue-800"
             >
               {showHint ? 'Ocultar dica' : 'Mostrar dica'}
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+              className="relative z-10 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
             >
               Verificar
             </button>
@@ -91,6 +109,22 @@ export default function MessageDecoder({ onSuccess }: MessageDecoderProps) {
               Você aceita ser nosso professor homenageado?
             </p>
           </div>
+        )}
+
+        {showImage && (
+        <div className="mt-4 flex justify-center animate-fade-in">
+        <img 
+          src="/images/JULIO.png"
+          alt="Júlio"
+          className="max-w-[500px] w-full h-[300px] rounded-lg shadow-xl"
+          style={{ objectFit: 'contain' }}
+          onLoad={() => console.log('Image loaded successfully')}
+          onError={(e) => {
+            console.error('Error loading image:', e);
+            e.currentTarget.style.display = 'none';
+          }}
+          />
+        </div>
         )}
 
         {showError && (

@@ -85,7 +85,8 @@ export default function App() {
               
               <p className="mt-6 text-gray-700">
                 Com carinho,<br />
-                <em>Formandos...</em>
+                <em>Turma XVIII de
+                Administração - UEMG Frutal</em>
               </p>
             </div>
           </div>

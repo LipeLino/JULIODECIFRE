@@ -25,6 +25,10 @@ export default {
             transform: 'translateY(-100%) translateX(50%)',
             opacity: '0'
           }
+        },
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 }
         }
       },
       animation: {
@@ -32,7 +36,8 @@ export default {
         'shimmer': 'shimmer 8s linear infinite',
         'bubble-slow': 'bubble 8s ease-in-out infinite',
         'bubble-medium': 'bubble 6s ease-in-out infinite',
-        'bubble-fast': 'bubble 4s ease-in-out infinite'
+        'bubble-fast': 'bubble 4s ease-in-out infinite',
+        'fade-in': 'fadeIn 3s ease-in'
       },
       backgroundSize: {
         'shimmer': '200% 100%',
